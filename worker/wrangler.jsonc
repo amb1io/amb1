@@ -7,13 +7,15 @@
   "send_email": [
     {
       "name": "EMAIL",
-      "remote": true
+      "remote": true,
+      "allowed_sender_addresses": ["contato@amb1.io"],
+      "destination_address": "rhamses@amb1.io"
     }
   ],
   "vars": {
     "FROM_EMAIL": "contato@amb1.io",
     "FROM_NAME": "AMB1",
     "CONTACT_TO": "rhamses@amb1.io",
-    "ALLOWED_ORIGINS": "http://localhost:4326,http://127.0.0.1:4326,https://amb1.io,https://www.amb1.io"
+    "ALLOWED_ORIGINS": "http://localhost:4326,http://127.0.0.1:4326,https://amb1.io,https://www.amb1.io,https://amb1.amb1.workers.dev"
   }
 }

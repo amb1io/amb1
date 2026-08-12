@@ -2,7 +2,7 @@
 import { useTranslations } from "../i18n/utils";
 
 const t = useTranslations(Astro.currentLocale);
-const locale = Astro.currentLocale ?? "pt-br";
+const locale = Astro.currentLocale ?? "en-us";
 const apiUrl = import.meta.env.PUBLIC_CONTACT_API ?? "http://127.0.0.1:8787";
 ---
 
@@ -86,7 +86,7 @@ const apiUrl = import.meta.env.PUBLIC_CONTACT_API ?? "http://127.0.0.1:8787";
           email: String(data.get("email") ?? ""),
           message: String(data.get("message") ?? ""),
           website: String(data.get("website") ?? ""),
-          locale: form.dataset.locale ?? "pt-br",
+          locale: form.dataset.locale ?? "en-us",
         };
 
         status.hidden = false;

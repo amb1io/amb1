@@ -13,11 +13,12 @@ interface Props {
 
 const locale = isLocale(Astro.currentLocale) ? Astro.currentLocale : defaultLocale;
 const t = useTranslations(locale);
+const defaultOgImage = locale === "pt-br" ? "/og-image-pt.png" : "/og-image-en.png";
 
 const {
   title = t("meta.title"),
   description = t("meta.description"),
-  image = "/og-image.png",
+  image = defaultOgImage,
   type = "website",
 } = Astro.props;
 
@@ -51,7 +52,7 @@ const jsonLd = {
       name: orgName,
       description,
       publisher: { "@id": `${site.origin}/#organization` },
-      inLanguage: ["pt-BR", "en-US"],
+      inLanguage: ["en-US", "pt-BR"],
     },
     {
       "@type": "WebPage",
@@ -120,9 +121,9 @@ const jsonLd = {
     <meta name="twitter:image:alt" content={title} />
 
     <!-- Hreflang -->
-    <link rel="alternate" hreflang="pt-BR" href={new URL(getRelativeLocaleUrl("pt-br"), site).href} />
     <link rel="alternate" hreflang="en-US" href={new URL(getRelativeLocaleUrl("en-us"), site).href} />
-    <link rel="alternate" hreflang="x-default" href={new URL(getRelativeLocaleUrl("pt-br"), site).href} />
+    <link rel="alternate" hreflang="pt-BR" href={new URL(getRelativeLocaleUrl("pt-br"), site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(getRelativeLocaleUrl("en-us"), site).href} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

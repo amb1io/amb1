@@ -1,0 +1,132 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import { useTranslations } from "../i18n/utils";
+
+const t = useTranslations(Astro.currentLocale);
+
+const clients = [
+  { name: "Vert Capital", src: "/clients/vert-capital.png" },
+  { name: "Seguros Unimed", src: "/clients/seguros-unimed.png" },
+  { name: "Qualicorp", src: "/clients/qualicorp.png" },
+  { name: "Amil", src: "/clients/amil.png" },
+  { name: "Farra Media", src: "/clients/farra-media.png" },
+  { name: "Vancouver Projector Rentals", src: "/clients/vancouver-projector-rentals.png" },
+  { name: "Truco Masters", src: "/clients/truco-masters.png" },
+];
+
+const track = [...clients, ...clients];
+---
+
+<section class="clients has-section-grid" id="clientes" aria-labelledby="clients-title">
+  <div class="section-grid" aria-hidden="true"></div>
+  <div class="container">
+    <SectionHeader
+      title={t("clients.title")}
+      lead={t("clients.lead")}
+      titleId="clients-title"
+    />
+
+    <div class="clients__marquee" aria-hidden="true">
+      <div class="clients__track">
+        {
+          track.map((client, index) => (
+            <div class="clients__item">
+              <img
+                src={client.src}
+                alt=""
+                width="480"
+                height="160"
+                loading="lazy"
+                data-index={index}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <ul class="sr-only">
+      {
+        clients.map((client) => (
+          <li>{client.name}</li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .clients {
+    padding-block: var(--space-section);
+  }
+
+  .clients__marquee {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .clients__track {
+    display: flex;
+    width: max-content;
+    gap: clamp(1.75rem, 3.5vw, 2.75rem);
+    align-items: center;
+    animation: clients-marquee 35s linear infinite;
+    will-change: transform;
+  }
+
+  .clients__item {
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    width: 11.25rem;
+    aspect-ratio: 3 / 1;
+    display: grid;
+    place-items: center;
+  }
+
+  .clients__item img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    filter: grayscale(1) contrast(1.05) brightness(0.85);
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @keyframes clients-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .clients__track {
+      animation: none;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: center;
+      row-gap: 1.5rem;
+    }
+
+    .clients__track .clients__item:nth-child(n + 8) {
+      display: none;
+    }
+  }
+</style>

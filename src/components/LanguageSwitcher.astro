@@ -1,0 +1,64 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { localeLabels, locales, type Locale } from "../i18n/locales";
+import { useTranslations } from "../i18n/utils";
+
+const currentLocale = (Astro.currentLocale ?? "pt-br") as Locale;
+const t = useTranslations(currentLocale);
+---
+
+<nav class="lang" aria-label={t("nav.lang")}>
+  {
+    locales.map((locale) => {
+      const isActive = locale === currentLocale;
+      return (
+        <a
+          class:list={["lang__link", { "lang__link--active": isActive }]}
+          href={getRelativeLocaleUrl(locale)}
+          hreflang={locale === "pt-br" ? "pt-BR" : "en-US"}
+          aria-current={isActive ? "page" : undefined}
+        >
+          {localeLabels[locale]}
+        </a>
+      );
+    })
+  }
+</nav>
+
+<style>
+  .lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15rem;
+    padding: 0.2rem;
+    border: 1px solid color-mix(in srgb, var(--color-charcoal) 16%, transparent);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--color-white) 72%, transparent);
+  }
+
+  .lang__link {
+    min-width: 2.25rem;
+    min-height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: calc(var(--radius) - 1px);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-charcoal);
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .lang__link:hover {
+    color: var(--color-ink);
+    background: color-mix(in srgb, var(--color-lime) 18%, transparent);
+  }
+
+  .lang__link--active {
+    background: var(--color-lime);
+    color: var(--color-ink);
+  }
+</style>

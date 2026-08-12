@@ -1,0 +1,143 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import { useTranslations } from "../i18n/utils";
+
+const t = useTranslations(Astro.currentLocale);
+
+const items = [
+  {
+    title: t("features.item1.title"),
+    text: t("features.item1.text"),
+  },
+  {
+    title: t("features.item2.title"),
+    text: t("features.item2.text"),
+  },
+  {
+    title: t("features.item3.title"),
+    text: t("features.item3.text"),
+  },
+];
+---
+
+<section class="features has-section-grid" id="solucao">
+  <div class="section-grid" aria-hidden="true"></div>
+  <div class="container">
+    <SectionHeader title={t("features.title")} lead={t("features.lead")} />
+
+    <ul class="features__list">
+      {
+        items.map((item, index) => (
+          <li class="features__item" style={`--i: ${index}`}>
+            <span class="features__index" aria-hidden="true">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <h3>{item.title}</h3>
+            <p>{item.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="strip" id="diferenciais" aria-labelledby="strip-title">
+  <div class="container strip__inner">
+    <h2 id="strip-title">{t("strip.title")}</h2>
+    <p>
+      {t("strip.lead")}
+    </p>
+    <a
+      class="btn strip__cta"
+      href="https://calendly.com/amb1/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {t("strip.calendly")}
+    </a>
+  </div>
+</section>
+
+<style>
+  .features {
+    padding-block: var(--space-section);
+  }
+
+  .features__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+
+  .features__item {
+    display: grid;
+    gap: 0.65rem;
+    padding-block: 1.75rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-charcoal) 14%, transparent);
+    animation: fade-up 0.7s var(--ease-out) both;
+    animation-delay: calc(0.08s * var(--i));
+  }
+
+  .features__index {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-lime-deep);
+  }
+
+  .features__item h3 {
+    font-size: 1.35rem;
+  }
+
+  .features__item p {
+    max-width: 38rem;
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 800px) {
+    .features__item {
+      grid-template-columns: 4rem 14rem 1fr;
+      align-items: baseline;
+      gap: 1.5rem;
+    }
+  }
+
+  .strip {
+    position: relative;
+    padding-block: clamp(2.25rem, 5vw, 3.25rem);
+    background: var(--color-lime);
+    color: var(--color-ink);
+    overflow: clip;
+  }
+
+  .strip__inner {
+    position: relative;
+    max-width: 40rem;
+  }
+
+  .strip__inner h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+    margin-bottom: 0.85rem;
+  }
+
+  .strip__inner p {
+    font-size: 1.05rem;
+    opacity: 0.88;
+  }
+
+  .strip__cta {
+    margin-top: 1.5rem;
+    background: var(--color-charcoal);
+    color: var(--color-white);
+    text-shadow: none;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  }
+
+  .strip__cta:hover {
+    background: color-mix(in srgb, var(--color-charcoal) 88%, black);
+    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+  }
+</style>

@@ -1,0 +1,19 @@
+{
+  "$schema": "../node_modules/wrangler/config-schema.json",
+  "name": "amb1-contact",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-01",
+  "workers_dev": true,
+  "send_email": [
+    {
+      "name": "EMAIL",
+      "remote": true
+    }
+  ],
+  "vars": {
+    "FROM_EMAIL": "contato@amb1.io",
+    "FROM_NAME": "AMB1",
+    "CONTACT_TO": "rhamses@amb1.io",
+    "ALLOWED_ORIGINS": "http://localhost:4326,http://127.0.0.1:4326,https://amb1.io,https://www.amb1.io"
+  }
+}

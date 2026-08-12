@@ -1,0 +1,142 @@
+---
+import "../styles/global.css";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { htmlLang, isLocale, defaultLocale, locales } from "../i18n/locales";
+import { useTranslations } from "../i18n/utils";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
+}
+
+const locale = isLocale(Astro.currentLocale) ? Astro.currentLocale : defaultLocale;
+const t = useTranslations(locale);
+
+const {
+  title = t("meta.title"),
+  description = t("meta.description"),
+  image = "/og-image.png",
+  type = "website",
+} = Astro.props;
+
+const site = Astro.site ?? new URL("https://amb1.io");
+const canonicalPath = getRelativeLocaleUrl(locale);
+const canonicalURL = new URL(canonicalPath, site).href;
+const imageURL = new URL(image, site).href;
+const ogLocale = locale === "en-us" ? "en_US" : "pt_BR";
+const orgName = "Amb1.io";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${site.origin}/#organization`,
+      name: orgName,
+      url: site.origin,
+      logo: {
+        "@type": "ImageObject",
+        url: new URL("/amb1-logo.svg", site).href,
+      },
+      image: imageURL,
+      description,
+      sameAs: [],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${site.origin}/#website`,
+      url: site.origin,
+      name: orgName,
+      description,
+      publisher: { "@id": `${site.origin}/#organization` },
+      inLanguage: ["pt-BR", "en-US"],
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonicalURL}#webpage`,
+      url: canonicalURL,
+      name: title,
+      description,
+      isPartOf: { "@id": `${site.origin}/#website` },
+      about: { "@id": `${site.origin}/#organization` },
+      primaryImageOfPage: {
+        "@type": "ImageObject",
+        url: imageURL,
+        width: 1200,
+        height: 630,
+      },
+      inLanguage: htmlLang[locale],
+    },
+  ],
+};
+---
+
+<!doctype html>
+<html
+  lang={htmlLang[locale]}
+  itemscope
+  itemtype="https://schema.org/WebPage"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} itemprop="description" />
+    <meta name="theme-color" content="#B8D040" />
+    <link rel="canonical" href={canonicalURL} itemprop="url" />
+    <link rel="icon" type="image/svg+xml" href="/amb1-logo.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={orgName} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={imageURL} />
+    <meta property="og:image:secure_url" content={imageURL} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:locale" content={ogLocale} />
+    {
+      locales
+        .filter((l) => l !== locale)
+        .map((l) => (
+          <meta
+            property="og:locale:alternate"
+            content={l === "en-us" ? "en_US" : "pt_BR"}
+          />
+        ))
+    }
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageURL} />
+    <meta name="twitter:image:alt" content={title} />
+
+    <!-- Hreflang -->
+    <link rel="alternate" hreflang="pt-BR" href={new URL(getRelativeLocaleUrl("pt-br"), site).href} />
+    <link rel="alternate" hreflang="en-US" href={new URL(getRelativeLocaleUrl("en-us"), site).href} />
+    <link rel="alternate" hreflang="x-default" href={new URL(getRelativeLocaleUrl("pt-br"), site).href} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title itemprop="name">{title}</title>
+    <meta itemprop="image" content={imageURL} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

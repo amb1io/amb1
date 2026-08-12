@@ -23,11 +23,26 @@ const {
 } = Astro.props;
 
 const site = Astro.site ?? new URL("https://amb1.io");
-const canonicalPath = getRelativeLocaleUrl(locale);
+const rawPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const pathWithoutLocale =
+  rawPath === "/pt-br" ? "/" : rawPath.replace(/^\/pt-br(?=\/)/, "") || "/";
+const pathKey =
+  pathWithoutLocale === "/" ? undefined : pathWithoutLocale.replace(/^\//, "");
+const canonicalPath = pathKey
+  ? getRelativeLocaleUrl(locale, pathKey)
+  : getRelativeLocaleUrl(locale);
 const canonicalURL = new URL(canonicalPath, site).href;
 const imageURL = new URL(image, site).href;
 const ogLocale = locale === "en-us" ? "en_US" : "pt_BR";
 const orgName = "Amb1.io";
+const alternateEn = new URL(
+  pathKey ? getRelativeLocaleUrl("en-us", pathKey) : getRelativeLocaleUrl("en-us"),
+  site,
+).href;
+const alternatePt = new URL(
+  pathKey ? getRelativeLocaleUrl("pt-br", pathKey) : getRelativeLocaleUrl("pt-br"),
+  site,
+).href;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -121,9 +136,9 @@ const jsonLd = {
     <meta name="twitter:image:alt" content={title} />
 
     <!-- Hreflang -->
-    <link rel="alternate" hreflang="en-US" href={new URL(getRelativeLocaleUrl("en-us"), site).href} />
-    <link rel="alternate" hreflang="pt-BR" href={new URL(getRelativeLocaleUrl("pt-br"), site).href} />
-    <link rel="alternate" hreflang="x-default" href={new URL(getRelativeLocaleUrl("en-us"), site).href} />
+    <link rel="alternate" hreflang="en-US" href={alternateEn} />
+    <link rel="alternate" hreflang="pt-BR" href={alternatePt} />
+    <link rel="alternate" hreflang="x-default" href={alternateEn} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

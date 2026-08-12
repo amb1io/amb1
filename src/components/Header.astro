@@ -1,16 +1,18 @@
 ---
 import LanguageSwitcher from "./LanguageSwitcher.astro";
 import { getLocaleHome, useTranslations } from "../i18n/utils";
+import { getRelativeLocaleUrl } from "astro:i18n";
 
 const locale = Astro.currentLocale;
 const t = useTranslations(locale);
 const home = getLocaleHome(locale);
 
 const links = [
-  { href: "#solucao", label: t("nav.solution") },
-  { href: "#clientes", label: t("nav.clients") },
-  { href: "#servicos", label: t("nav.services") },
-  { href: "#contato", label: t("nav.contact") },
+  { href: `${home}#solucao`, label: t("nav.solution") },
+  { href: `${home}#clientes`, label: t("nav.clients") },
+  { href: `${home}#servicos`, label: t("nav.services") },
+  { href: getRelativeLocaleUrl(locale ?? "en-us", "cases"), label: t("nav.cases") },
+  { href: `${home}#contato`, label: t("nav.contact") },
 ];
 ---
 

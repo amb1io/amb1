@@ -1,0 +1,91 @@
+---
+import CaseLayout from "../../../layouts/CaseLayout.astro";
+import CaseMedia from "../../../components/case/CaseMedia.astro";
+
+const title = "Truco Masters: do baralho à plataforma";
+const description =
+  "Como a Amb1.io ajudou o Truco Masters a transformar a experiência do truco em produto digital.";
+---
+
+<CaseLayout title={title} description={description} image="/clients/truco-masters.png">
+  <p class="case__kicker">Case</p>
+  <h1>{title}</h1>
+
+  <!-- 1. Resumo + mídia em destaque -->
+  <p>
+    O Truco Masters precisava de mais do que uma landing bonita. Precisava de um
+    produto com cara de mesa: rodadas rápidas, ranking claro e comunidade que
+    volta.
+  </p>
+
+  <CaseMedia
+    variant="hero"
+    kind="image"
+    src="/clients/truco-masters.png"
+    alt="Marca Truco Masters"
+    caption="Abertura — troque por foto do produto ou vídeo de lançamento."
+  />
+
+  <!-- 2. Cliente -->
+  <p class="case__client"><strong>Cliente:</strong> Truco Masters</p>
+
+  <!-- 3. Problema -->
+  <h2>Problema</h2>
+  <p>
+    A marca já tinha público e energia. Faltava a espinha digital: um lugar para
+    jogar, acompanhar resultados e crescer sem perder o espírito do jogo.
+  </p>
+
+  <!-- 4. Solução -->
+  <h2>Solução</h2>
+  <h3>Produto com cara de mesa</h3>
+  <ul>
+    <li>Fluxo de partida pensado para rodadas curtas e intensas.</li>
+    <li>Ranking e temporadas com progresso legível.</li>
+    <li>Identidade visual forte, sem virar ruído.</li>
+  </ul>
+
+  <h3>Entrega sem caixa-preta</h3>
+  <ul>
+    <li>Marcos ligados a objetivos de negócio, não a métricas vazias.</li>
+    <li>Visibilidade semanal do que saiu e do que vem a seguir.</li>
+  </ul>
+
+  <!-- 5. Processo -->
+  <h2>Processo</h2>
+  <p>
+    Dos primeiros wireframes às partidas no ar, mantivemos o ciclo curto:
+    decidir, construir, testar, ajustar.
+  </p>
+
+  <div class="case-gallery case-gallery--2">
+    <CaseMedia
+      kind="image"
+      src="/clients/truco-masters.png"
+      alt="Processo 1"
+      caption="Exploração — troque por wireframe ou captura de UI."
+    />
+    <CaseMedia
+      kind="image"
+      src="/clients/truco-masters.png"
+      alt="Processo 2"
+      caption="Construção — troque por foto dos bastidores."
+    />
+  </div>
+
+  <!-- 6. Conclusão -->
+  <h2>Resultado</h2>
+  <p>
+    O resultado é um produto que leva a mesa para o digital: caminho mais claro
+    para jogadores, presença de marca mais forte e base pronta para crescer
+    temporada após temporada.
+  </p>
+
+  <CaseMedia
+    variant="outro"
+    kind="image"
+    src="/clients/truco-masters.png"
+    alt="Resultado Truco Masters"
+    caption="Fechamento — troque por foto final do produto ou highlight."
+  />
+</CaseLayout>

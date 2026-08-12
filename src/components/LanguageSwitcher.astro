@@ -5,16 +5,25 @@ import { useTranslations } from "../i18n/utils";
 
 const currentLocale = (Astro.currentLocale ?? "en-us") as Locale;
 const t = useTranslations(currentLocale);
+
+const rawPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const pathWithoutLocale =
+  rawPath === "/pt-br" ? "/" : rawPath.replace(/^\/pt-br(?=\/)/, "") || "/";
+const pathKey =
+  pathWithoutLocale === "/" ? undefined : pathWithoutLocale.replace(/^\//, "");
 ---
 
 <nav class="lang" aria-label={t("nav.lang")}>
   {
     locales.map((locale) => {
       const isActive = locale === currentLocale;
+      const href = pathKey
+        ? getRelativeLocaleUrl(locale, pathKey)
+        : getRelativeLocaleUrl(locale);
       return (
         <a
           class:list={["lang__link", { "lang__link--active": isActive }]}
-          href={getRelativeLocaleUrl(locale)}
+          href={href}
           hreflang={locale === "pt-br" ? "pt-BR" : "en-US"}
           aria-current={isActive ? "page" : undefined}
         >

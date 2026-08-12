@@ -1,0 +1,128 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import Header from "../../../components/Header.astro";
+import Footer from "../../../components/Footer.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations } from "../../../i18n/utils";
+
+const t = useTranslations(Astro.currentLocale);
+const locale = Astro.currentLocale ?? "pt-br";
+
+const cases = [
+  {
+    slug: "truco-masters",
+    title: t("cases.truco.title"),
+    description: t("cases.truco.description"),
+    client: "Truco Masters",
+    image: "/clients/truco-masters.png",
+  },
+];
+---
+
+<BaseLayout title={`${t("cases.index.title")} — Amb1.io`} description={t("cases.index.lead")}>
+  <Header />
+  <main class="cases-index has-section-grid">
+    <div class="section-grid" aria-hidden="true"></div>
+    <div class="container cases-index__inner">
+      <header class="cases-index__header">
+        <h1>{t("cases.index.title")}</h1>
+        <p>{t("cases.index.lead")}</p>
+      </header>
+
+      <ul class="cases-index__list">
+        {
+          cases.map((item) => (
+            <li>
+              <a
+                class="cases-index__card"
+                href={getRelativeLocaleUrl(locale, `cases/${item.slug}`)}
+              >
+                <img src={item.image} alt="" width="480" height="160" loading="lazy" />
+                <div>
+                  <p class="cases-index__client">{item.client}</p>
+                  <h2>{item.title}</h2>
+                  <p>{item.description}</p>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style>
+  .cases-index {
+    padding-block: var(--space-section);
+  }
+
+  .cases-index__inner {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  .cases-index__header h1 {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    margin-bottom: 0.75rem;
+  }
+
+  .cases-index__header p {
+    max-width: 36rem;
+    color: var(--color-muted);
+  }
+
+  .cases-index__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .cases-index__card {
+    display: grid;
+    gap: 1.25rem;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-charcoal) 14%, transparent);
+    transition: opacity 0.2s ease;
+  }
+
+  .cases-index__card:hover {
+    opacity: 0.86;
+  }
+
+  .cases-index__card img {
+    width: min(100%, 14rem);
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(1) contrast(1.05) brightness(0.85);
+  }
+
+  .cases-index__client {
+    margin-bottom: 0.4rem;
+    color: var(--color-lime-deep);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cases-index__card h2 {
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .cases-index__card p {
+    color: var(--color-muted);
+    max-width: 40rem;
+  }
+
+  @media (min-width: 760px) {
+    .cases-index__card {
+      grid-template-columns: 14rem 1fr;
+      align-items: center;
+    }
+  }
+</style>

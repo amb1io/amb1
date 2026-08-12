@@ -1,0 +1,101 @@
+---
+import CaseLayout from "../../layouts/CaseLayout.astro";
+import CaseMedia from "../../components/case/CaseMedia.astro";
+
+const title = "Truco Masters: from the table to the platform";
+const description =
+  "How Amb1.io helped Truco Masters turn the truco experience into a digital product.";
+---
+
+<CaseLayout title={title} description={description} image="/clients/truco-masters.png">
+  <p class="case__kicker">Case</p>
+  <h1>{title}</h1>
+
+  <!-- 1. Summary + featured media -->
+  <p>
+    Truco Masters needed more than a pretty landing page. They needed a product
+    that felt like the table: fast rounds, clear ranking, and a community that
+    keeps coming back.
+  </p>
+
+  <CaseMedia
+    variant="hero"
+    kind="image"
+    src="/clients/truco-masters.png"
+    alt="Truco Masters brand"
+    caption="Opening snapshot — replace with a product photo or launch video."
+  />
+
+  <!-- 2. Client -->
+  <p class="case__client"><strong>Client:</strong> Truco Masters</p>
+
+  <!-- 3. Problem -->
+  <h2>Problem</h2>
+  <p>
+    The brand already had audience and energy. What was missing was a digital
+    spine: a place to play, follow results, and grow without losing the spirit
+    of the game.
+  </p>
+
+  <!-- 4. Solution -->
+  <h2>Solution</h2>
+  <h3>Product that feels like the table</h3>
+  <ul>
+    <li>Match flow designed around short, intense rounds.</li>
+    <li>Ranking and seasons with readable progress.</li>
+    <li>Identity system that stays loud without getting noisy.</li>
+  </ul>
+
+  <h3>Delivery with no black box</h3>
+  <ul>
+    <li>Milestones tied to business goals, not vanity metrics.</li>
+    <li>Weekly visibility on what shipped and what comes next.</li>
+  </ul>
+
+  <!-- 5. Process media -->
+  <h2>Process</h2>
+  <p>
+    From first wireframes to live matches, we kept the loop tight: decide,
+    build, playtest, adjust.
+  </p>
+
+  <div class="case-gallery case-gallery--2">
+    <CaseMedia
+      kind="image"
+      src="/clients/truco-masters.png"
+      alt="Process still 1"
+      caption="Exploration — swap for wireframe or UI capture."
+    />
+    <CaseMedia
+      kind="image"
+      src="/clients/truco-masters.png"
+      alt="Process still 2"
+      caption="Build — swap for a behind-the-scenes photo."
+    />
+  </div>
+
+  <!-- Optional video embed example:
+  <CaseMedia
+    kind="embed"
+    src="https://www.youtube.com/embed/VIDEO_ID"
+    alt="Process walkthrough"
+    caption="Walkthrough of the match experience."
+  />
+  -->
+
+  <!-- 6. Conclusion -->
+  <h2>Outcome</h2>
+  <p>
+    The result is a product that carries the table online: clearer path for
+    players, stronger brand presence, and a base ready to grow season after
+    season.
+  </p>
+
+  <CaseMedia
+    variant="outro"
+    kind="image"
+    src="/clients/truco-masters.png"
+    alt="Truco Masters outcome"
+    caption="Closing frame — replace with final product photo or highlight reel."
+  />
+</CaseLayout>

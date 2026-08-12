@@ -1,0 +1,175 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { defaultLocale, isLocale } from "../i18n/locales";
+import { useTranslations } from "../i18n/utils";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  backHref?: string;
+}
+
+const locale = isLocale(Astro.currentLocale) ? Astro.currentLocale : defaultLocale;
+const t = useTranslations(locale);
+
+const {
+  title,
+  description,
+  image,
+  backHref = getRelativeLocaleUrl(locale, "cases"),
+} = Astro.props;
+---
+
+<BaseLayout title={title} description={description} image={image} type="article">
+  <Header />
+  <main class="case">
+    <div class="case__rail">
+      <a class="case__back" href={backHref}>{t("cases.back")}</a>
+      <article class="case__article">
+        <slot />
+      </article>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>
+
+<style is:global>
+  .case {
+    padding-block: clamp(2.5rem, 6vw, 4rem) var(--space-section);
+  }
+
+  .case__rail {
+    width: min(100% - (var(--space-gutter) * 2), 42rem);
+    margin-inline: auto;
+  }
+
+  .case__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1.75rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .case__back:hover {
+    color: var(--color-lime-deep);
+  }
+
+  .case__article {
+    display: grid;
+    gap: 1.35rem;
+  }
+
+  .case__article > * {
+    min-width: 0;
+  }
+
+  .case__kicker {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-lime-deep);
+  }
+
+  .case__article h1 {
+    font-size: clamp(2rem, 5vw, 2.85rem);
+    letter-spacing: -0.04em;
+    max-width: 18ch;
+  }
+
+  .case__client {
+    color: var(--color-muted);
+    font-size: 1rem;
+  }
+
+  .case__client strong {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  .case__article h2 {
+    margin-top: 1.25rem;
+    font-size: 1.35rem;
+  }
+
+  .case__article h3 {
+    margin-top: 0.35rem;
+    font-size: 1.1rem;
+    color: var(--color-charcoal);
+  }
+
+  .case__article p,
+  .case__article li {
+    color: var(--color-charcoal);
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+
+  .case__article ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    display: grid;
+    gap: 0.65rem;
+  }
+
+  .case__article li::marker {
+    color: var(--color-lime-deep);
+  }
+
+  .case-media {
+    margin-block: 0.5rem 0.25rem;
+  }
+
+  .case-media--hero,
+  .case-media--outro {
+    margin-block: 0.35rem 0.75rem;
+  }
+
+  .case-media__frame {
+    overflow: clip;
+    border-radius: calc(var(--radius) + 0.2rem);
+    background: color-mix(in srgb, var(--color-charcoal) 8%, white);
+    border: 1px solid color-mix(in srgb, var(--color-charcoal) 10%, transparent);
+  }
+
+  .case-media__frame img,
+  .case-media__frame video {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .case-media__frame iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: 0;
+  }
+
+  .case-media__caption {
+    margin-top: 0.65rem;
+    color: var(--color-muted);
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .case-gallery {
+    display: grid;
+    gap: 1rem;
+    margin-block: 0.35rem;
+  }
+
+  @media (min-width: 720px) {
+    .case-gallery--2 {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

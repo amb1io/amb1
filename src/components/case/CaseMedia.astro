@@ -1,0 +1,42 @@
+---
+interface Props {
+  kind?: "image" | "video" | "embed";
+  src: string;
+  alt?: string;
+  caption?: string;
+  poster?: string;
+  variant?: "hero" | "inline" | "outro";
+}
+
+const {
+  kind = "image",
+  src,
+  alt = "",
+  caption,
+  poster,
+  variant = "inline",
+} = Astro.props;
+---
+
+<figure class:list={["case-media", `case-media--${variant}`]}>
+  <div class="case-media__frame">
+    {
+      kind === "image" ? (
+        <img src={src} alt={alt} loading={variant === "hero" ? "eager" : "lazy"} />
+      ) : kind === "video" ? (
+        <video controls playsinline preload="metadata" poster={poster}>
+          <source src={src} />
+        </video>
+      ) : (
+        <iframe
+          src={src}
+          title={alt || caption || "Case media"}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+        />
+      )
+    }
+  </div>
+  {caption && <figcaption class="case-media__caption">{caption}</figcaption>}
+</figure>

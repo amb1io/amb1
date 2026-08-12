@@ -3,7 +3,7 @@ import type { Locale } from "./locales";
 const ptBr = {
   "meta.title": "Amb1.io - Input of Ideas. Output of Solutions.",
   "meta.description":
-    "Landing page AMB1. Tecnologia limpa, presença forte e resultados que ligam.",
+    "Amb1.io traduz conceitos complexos em soluções de tecnologia que geram resultado para empresas no mundo todo. Ideias entram. Soluções saem.",
   "nav.solution": "Príncipios",
   "nav.clients": "Clientes",
   "nav.services": "Serviços",
@@ -70,7 +70,7 @@ const ptBr = {
 const enUs = {
   "meta.title": "Amb1.io - Input of Ideas. Output of Solutions.",
   "meta.description":
-    "AMB1 landing page. Clean technology, strong presence, and results that connect.",
+    "Amb1.io turns complex concepts into technology solutions that deliver results for businesses worldwide. Ideas in. Solutions out.",
   "nav.solution": "Principles",
   "nav.clients": "Clients",
   "nav.services": "Services",

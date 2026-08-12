@@ -1,0 +1,24 @@
+{
+  "name": "amb1.io",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev --port 4326",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "npm run build && wrangler deploy",
+    "astro": "astro",
+    "worker:dev": "wrangler dev --config worker/wrangler.jsonc",
+    "worker:deploy": "wrangler deploy --config worker/wrangler.jsonc",
+    "worker:types": "wrangler types --config worker/wrangler.jsonc"
+  },
+  "dependencies": {
+    "astro": "^7.2.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4.121.0"
+  }
+}

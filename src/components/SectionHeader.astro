@@ -1,0 +1,37 @@
+---
+interface Props {
+  title: string;
+  lead: string;
+  titleId?: string;
+}
+
+const { title, lead, titleId } = Astro.props;
+---
+
+<div class="section-header">
+  <h2 id={titleId}>{title}</h2>
+  <p set:html={lead} />
+</div>
+
+<style>
+  .section-header {
+    max-width: 36rem;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .section-header h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    margin-bottom: 0.85rem;
+  }
+
+  .section-header p {
+    color: var(--color-muted);
+  }
+
+  .section-header :global(b),
+  .section-header :global(strong) {
+    color: var(--color-lime);
+    font-weight: 700;
+    text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+  }
+</style>

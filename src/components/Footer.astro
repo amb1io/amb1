@@ -1,0 +1,52 @@
+---
+import { getLocaleHome, useTranslations } from "../i18n/utils";
+
+const year = new Date().getFullYear();
+const t = useTranslations(Astro.currentLocale);
+const home = getLocaleHome(Astro.currentLocale);
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <a class="footer__brand" href={home}>
+      <img src="/amb1-logo.svg" alt="" width="28" height="28" />
+      <span>AMB1</span>
+    </a>
+    <p>© {year} AMB1. {t("footer.rights")}</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    padding-block: 2rem 2.5rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-charcoal) 12%, transparent);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .footer__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+  }
+
+  .footer__brand img {
+    width: 1.75rem;
+    height: 1.75rem;
+    object-fit: contain;
+  }
+
+  .footer p {
+    color: var(--color-muted);
+    font-size: 0.9rem;
+  }
+</style>

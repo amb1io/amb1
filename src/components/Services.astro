@@ -1,0 +1,85 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+import { useTranslations } from "../i18n/utils";
+
+const t = useTranslations(Astro.currentLocale);
+
+const services = [
+  {
+    title: t("services.software.title"),
+    text: t("services.software.text"),
+  },
+  {
+    title: t("services.hardware.title"),
+    text: t("services.hardware.text"),
+  },
+  {
+    title: t("services.data.title"),
+    text: t("services.data.text"),
+  },
+  {
+    title: t("services.engineering.title"),
+    text: t("services.engineering.text"),
+  },
+];
+---
+
+<section class="services has-section-grid" id="servicos" aria-labelledby="services-title">
+  <div class="section-grid" aria-hidden="true"></div>
+  <div class="container">
+    <SectionHeader
+      title={t("services.title")}
+      lead={t("services.lead")}
+      titleId="services-title"
+    />
+
+    <ul class="services__grid">
+      {
+        services.map((service, index) => (
+          <li class="services__item" style={`--i: ${index}`}>
+            <h3>{service.title}</h3>
+            <p>{service.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services {
+    padding-block: var(--space-section);
+  }
+
+  .services__grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 4vw, 3rem) clamp(2rem, 5vw, 4rem);
+  }
+
+  .services__item {
+    display: grid;
+    gap: 0.85rem;
+    align-content: start;
+    animation: fade-up 0.7s var(--ease-out) both;
+    animation-delay: calc(0.08s * var(--i));
+  }
+
+  .services__item h3 {
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  }
+
+  .services__item p {
+    color: var(--color-muted);
+    max-width: 28rem;
+  }
+
+  @media (min-width: 700px) {
+    .services__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

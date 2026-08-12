@@ -1,0 +1,106 @@
+---
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import { getLocaleHome, useTranslations } from "../i18n/utils";
+
+const locale = Astro.currentLocale;
+const t = useTranslations(locale);
+const home = getLocaleHome(locale);
+
+const links = [
+  { href: "#solucao", label: t("nav.solution") },
+  { href: "#clientes", label: t("nav.clients") },
+  { href: "#servicos", label: t("nav.services") },
+  { href: "#contato", label: t("nav.contact") },
+];
+---
+
+<header class="header">
+  <div class="container header__inner">
+    <a class="header__brand" href={home} aria-label={t("nav.home")}>
+      <img src="/amb1-logo.svg" alt="" width="40" height="40" />
+      <span>AMB1</span>
+    </a>
+
+    <nav class="header__nav" aria-label={t("nav.main")}>
+      {
+        links.map((link) => (
+          <a href={link.href}>{link.label}</a>
+        ))
+      }
+    </nav>
+
+    <div class="header__actions">
+      <LanguageSwitcher />
+      <a class="btn btn--primary header__cta" href="#contato">{t("nav.start")}</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(14px);
+    background: color-mix(in srgb, var(--color-fog) 82%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-charcoal) 10%, transparent);
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4.25rem;
+  }
+
+  .header__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+
+  .header__brand img {
+    width: 2.35rem;
+    height: 2.35rem;
+    object-fit: contain;
+  }
+
+  .header__nav {
+    display: none;
+    gap: 1.75rem;
+  }
+
+  .header__nav a {
+    color: var(--color-charcoal);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: color 0.2s ease;
+  }
+
+  .header__nav a:hover {
+    color: var(--color-lime-deep);
+  }
+
+  .header__actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .header__cta {
+    min-height: 2.5rem;
+    padding-inline: 1.15rem;
+    font-size: 0.875rem;
+  }
+
+  @media (min-width: 768px) {
+    .header__nav {
+      display: flex;
+    }
+  }
+</style>

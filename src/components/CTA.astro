@@ -1,0 +1,231 @@
+---
+import { useTranslations } from "../i18n/utils";
+
+const t = useTranslations(Astro.currentLocale);
+const locale = Astro.currentLocale ?? "pt-br";
+const apiUrl = import.meta.env.PUBLIC_CONTACT_API ?? "http://127.0.0.1:8787";
+---
+
+<section class="cta has-section-grid" id="contato">
+  <div class="section-grid" aria-hidden="true"></div>
+  <div class="container cta__panel">
+    <div class="cta__copy">
+      <h2>{t("cta.title")}</h2>
+      <p>{t("cta.lead")}</p>
+    </div>
+    <form
+      class="cta__form"
+      method="post"
+      data-contact-form
+      data-api={apiUrl}
+      data-locale={locale}
+      data-success={t("cta.success")}
+      data-error={t("cta.error")}
+      data-sending={t("cta.sending")}
+    >
+      <label>
+        <span class="sr-only">{t("cta.name")}</span>
+        <input
+          type="text"
+          name="name"
+          placeholder={t("cta.namePlaceholder")}
+          required
+          autocomplete="name"
+        />
+      </label>
+      <label>
+        <span class="sr-only">{t("cta.email")}</span>
+        <input
+          type="email"
+          name="email"
+          placeholder={t("cta.emailPlaceholder")}
+          required
+          autocomplete="email"
+        />
+      </label>
+      <label>
+        <span class="sr-only">{t("cta.message")}</span>
+        <textarea
+          name="message"
+          placeholder={t("cta.messagePlaceholder")}
+          rows="4"></textarea>
+      </label>
+      <!-- Honeypot -->
+      <label class="cta__hp" aria-hidden="true">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" />
+      </label>
+      <button class="btn btn--primary" type="submit">{t("cta.submit")}</button>
+      <p class="cta__status" data-contact-status hidden></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  function initContactForms() {
+    const forms = document.querySelectorAll<HTMLFormElement>(
+      "[data-contact-form]",
+    );
+
+    forms.forEach((form) => {
+      if (form.dataset.bound === "true") return;
+      form.dataset.bound = "true";
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const api = form.dataset.api;
+        const status = form.querySelector<HTMLElement>("[data-contact-status]");
+        const submit = form.querySelector<HTMLButtonElement>(
+          'button[type="submit"]',
+        );
+        if (!api || !status || !submit) return;
+
+        const data = new FormData(form);
+        const payload = {
+          name: String(data.get("name") ?? ""),
+          email: String(data.get("email") ?? ""),
+          message: String(data.get("message") ?? ""),
+          website: String(data.get("website") ?? ""),
+          locale: form.dataset.locale ?? "pt-br",
+        };
+
+        status.hidden = false;
+        status.dataset.state = "pending";
+        status.textContent = form.dataset.sending ?? "";
+        submit.disabled = true;
+
+        try {
+          const response = await fetch(api, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          });
+
+          const result = (await response.json()) as { ok?: boolean };
+
+          if (!response.ok || !result.ok) {
+            throw new Error("send_failed");
+          }
+
+          status.dataset.state = "success";
+          status.textContent = form.dataset.success ?? "";
+          form.reset();
+        } catch {
+          status.dataset.state = "error";
+          status.textContent = form.dataset.error ?? "";
+        } finally {
+          submit.disabled = false;
+        }
+      });
+    });
+  }
+
+  initContactForms();
+  document.addEventListener("astro:page-load", initContactForms);
+</script>
+
+<style>
+  .cta {
+    padding-block: var(--space-section);
+  }
+
+  .cta__panel {
+    display: grid;
+    gap: 2rem;
+    padding: clamp(1.75rem, 4vw, 2.75rem);
+    background: linear-gradient(
+      160deg,
+      var(--color-white),
+      color-mix(in srgb, var(--color-lime-soft) 55%, white)
+    );
+    border: 1px solid color-mix(in srgb, var(--color-charcoal) 12%, transparent);
+    border-radius: calc(var(--radius) + 0.35rem);
+  }
+
+  .cta__copy h2 {
+    font-size: clamp(1.7rem, 3vw, 2.35rem);
+    margin-bottom: 0.65rem;
+  }
+
+  .cta__copy p {
+    max-width: 32rem;
+  }
+
+  .cta__form {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .cta__form input,
+  .cta__form textarea {
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid
+      color-mix(in srgb, var(--color-charcoal) 22%, transparent);
+    border-radius: var(--radius);
+    background: var(--color-white);
+    color: var(--color-ink);
+    font: inherit;
+    transition:
+      border-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .cta__form textarea {
+    min-height: 7rem;
+    resize: vertical;
+  }
+
+  .cta__form input:focus,
+  .cta__form textarea:focus {
+    outline: none;
+    border-color: var(--color-lime-deep);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-lime) 35%, transparent);
+  }
+
+  .cta__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .cta__status {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .cta__status[data-state="pending"] {
+    color: var(--color-charcoal);
+  }
+
+  .cta__status[data-state="success"] {
+    color: var(--color-lime-deep);
+  }
+
+  .cta__status[data-state="error"] {
+    color: #b42318;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (min-width: 800px) {
+    .cta__panel {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+  }
+</style>

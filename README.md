@@ -12,10 +12,10 @@ Site Astro com template de landing page baseado no logo positivo padrão.
 
 ## Idiomas
 
+- `en-US` → `/` (padrão, sem redirect)
 - `pt-BR` → `/pt-br/`
-- `en-US` → `/en-us/`
 
-Traduções em `src/i18n/ui.ts`. O `/` redireciona para o idioma padrão (`pt-br`).
+Traduções em `src/i18n/ui.ts`.
 
 ## Desenvolvimento
 

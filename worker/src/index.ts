@@ -86,7 +86,7 @@ export default {
     const name = (payload.name ?? "").trim();
     const email = (payload.email ?? "").trim().toLowerCase();
     const message = (payload.message ?? "").trim();
-    const locale = payload.locale === "en-us" ? "en-us" : "pt-br";
+    const locale = payload.locale === "pt-br" ? "pt-br" : "en-us";
 
     if (!name || name.length > 120) {
       return json({ ok: false, error: "invalid_name" }, 400, origin, allowed);

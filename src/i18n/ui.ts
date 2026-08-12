@@ -10,7 +10,6 @@ const ptBr = {
   "nav.contact": "Contato",
   "nav.home": "Amb1.io",
   "nav.main": "Principal",
-  "nav.start": "Começar",
   "nav.lang": "Idioma",
   "hero.title": "Ideias entram. Soluções saem.",
   "hero.lead":
@@ -78,7 +77,6 @@ const enUs = {
   "nav.contact": "Contact",
   "nav.home": "Amb1.io",
   "nav.main": "Main",
-  "nav.start": "Get started",
   "nav.lang": "Language",
   "hero.title": "Ideas in. Solutions out.",
   "hero.lead":

@@ -5,11 +5,10 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://amb1.io",
   i18n: {
-    defaultLocale: "pt-br",
-    locales: ["pt-br", "en-us"],
+    defaultLocale: "en-us",
+    locales: ["en-us", "pt-br"],
     routing: {
-      prefixDefaultLocale: true,
-      redirectToDefaultLocale: false,
+      prefixDefaultLocale: false,
     },
   },
 });
